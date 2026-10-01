@@ -1,0 +1,303 @@
+/* =========================================
+   USER ADMIN PAGE
+========================================= */
+
+.user-admin-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 38px 42px;
+    background: #f8fafb;
+    font-family: "Inter", Arial, sans-serif;
+    color: #1f2937;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.user-admin-page h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+}
+
+.user-admin-page > p {
+    margin: 7px 0 28px;
+    font-size: 13px;
+    color: #7b8490;
+}
+
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+.user-admin-page .user-table-container {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #edf0f2;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.user-admin-page table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    table-layout: fixed;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.user-admin-page thead {
+    background: #f5f7f9;
+}
+
+.user-admin-page thead tr {
+    height: 48px;
+}
+
+.user-admin-page th {
+    padding: 0 24px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: #626b76;
+    border-bottom: 1px solid #e8ecef;
+}
+
+
+/* Column widths */
+
+.user-admin-page th:nth-child(1),
+.user-admin-page td:nth-child(1) {
+    width: 18%;
+}
+
+.user-admin-page th:nth-child(2),
+.user-admin-page td:nth-child(2) {
+    width: 20%;
+}
+
+.user-admin-page th:nth-child(3),
+.user-admin-page td:nth-child(3) {
+    width: 28%;
+}
+
+.user-admin-page th:nth-child(4),
+.user-admin-page td:nth-child(4) {
+    width: 18%;
+}
+
+.user-admin-page th:nth-child(5),
+.user-admin-page td:nth-child(5) {
+    width: 16%;
+}
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.user-admin-page tbody tr {
+    height: 54px;
+    transition: background 0.2s ease;
+}
+
+.user-admin-page tbody tr:hover {
+    background: #fafcfc;
+}
+
+.user-admin-page tbody tr:last-child {
+    border-bottom: none;
+}
+
+.user-admin-page td {
+    padding: 0 24px;
+    font-size: 12px;
+    color: #5f6873;
+    border-bottom: 1px solid #edf0f2;
+    vertical-align: middle;
+}
+
+
+/* Name */
+
+.user-admin-page td:first-child {
+    font-weight: 600;
+    color: #252b32;
+}
+
+
+/* Email */
+
+.user-admin-page td:nth-child(3) {
+    color: #66717c;
+}
+
+
+/* =========================================
+   SHOW BUTTON
+========================================= */
+
+.user-admin-page td:nth-child(4) button {
+    min-width: 62px;
+    height: 27px;
+    padding: 0 13px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d9eee8;
+    border-radius: 5px;
+
+    background: #f0faf7;
+    color: #4f8f7c;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.user-admin-page td:nth-child(4) button:hover {
+    background: #e3f6f0;
+    border-color: #c6e7dd;
+    color: #3e7968;
+}
+
+
+/* =========================================
+   BLOCK / UNBLOCK BUTTON
+========================================= */
+
+.user-admin-page td:nth-child(5) button {
+    min-width: 55px;
+    height: 27px;
+    padding: 0 13px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+
+/* Active user - Block button */
+
+.user-admin-page td:nth-child(5) button.bg-green-100 {
+    background: #effaf3;
+    color: #42a267;
+    border-color: #dcefe2;
+}
+
+.user-admin-page td:nth-child(5) button.bg-green-100:hover {
+    background: #e3f5e9;
+}
+
+
+/* Blocked user - Unblock button */
+
+.user-admin-page td:nth-child(5) button.bg-red-100 {
+    background: #fff0f0;
+    color: #d85b5b;
+    border-color: #f5dcdc;
+}
+
+.user-admin-page td:nth-child(5) button.bg-red-100:hover {
+    background: #ffe5e5;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.user-admin-page td[colspan="5"] {
+    height: 100px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   LOADING / ERROR
+========================================= */
+
+.user-admin-page.loading,
+.user-admin-page.error {
+    padding: 40px;
+    font-size: 14px;
+}
+
+.user-admin-page .text-red-600 {
+    color: #dc2626;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .user-admin-page {
+        padding: 30px;
+    }
+
+    .user-admin-page th,
+    .user-admin-page td {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .user-admin-page table {
+        min-width: 750px;
+    }
+
+    .user-admin-page .user-table-container {
+        overflow-x: auto;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .user-admin-page {
+        padding: 20px 15px;
+    }
+
+    .user-admin-page h1 {
+        font-size: 22px;
+    }
+
+    .user-admin-page > p {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .user-admin-page table {
+        min-width: 700px;
+    }
+}

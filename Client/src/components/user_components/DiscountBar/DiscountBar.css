@@ -1,0 +1,25 @@
+.discount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: rgba(0, 53, 75, 1);
+    width: 100%;
+    min-height: 36px;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+
+}
+@media(max-width: 900px){
+    .discount{
+        font-size: 15px;
+    }
+}
+@media(max-width: 480px){
+    .discount{
+        font-size: 13px;
+    }
+}

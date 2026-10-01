@@ -1,0 +1,33 @@
+.cart_summary {
+    width: 100%;
+    padding: 25px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.cart_summary h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+.summary_row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.cart_summary hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.summary_total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 600;
+}

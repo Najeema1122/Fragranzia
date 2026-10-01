@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.exclusiveContainer {
+    width: 100%;
+    max-width: 1728px;
+    margin: 80px auto;
+    padding: 0 80px;
+
+    display: flex;
+    gap: 20px;
+}
+
+/* Cards */
+.newArrivels,
+.limitedEdition,
+.BestSellers {
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* Layout proportions */
+.newArrivels {
+    flex: 1.5;
+}
+
+.limitedEdition,
+.BestSellers {
+    flex: 1;
+}
+
+/* Link fills the card */
+.newArrivels a,
+.limitedEdition a,
+.BestSellers a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Images */
+.newArrivels img,
+.limitedEdition img,
+.BestSellers img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 10px;
+
+    /* Hover animation */
+    transition: transform 0.35s ease;
+}
+
+/* Hover effect */
+.newArrivels a:hover img,
+.limitedEdition a:hover img,
+.BestSellers a:hover img {
+    transform: scale(1.05);
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .exclusiveContainer {
+        padding: 0 40px;
+        gap: 16px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .exclusiveContainer {
+        flex-direction: column;
+        padding: 0 28px;
+        gap: 20px;
+    }
+
+    .newArrivels,
+    .limitedEdition,
+    .BestSellers {
+        width: 100%;
+    }
+
+    .newArrivels img,
+    .limitedEdition img,
+    .BestSellers img {
+        height: auto;
+    }
+}

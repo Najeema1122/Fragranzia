@@ -1,0 +1,206 @@
+/* =========================================
+   PAYMENT SECTION
+========================================= */
+
+.payment_section {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.payment_title {
+    margin: 0 0 10px 0;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 18px;
+
+    color: #222;
+}
+
+
+/* =========================================
+   PAYMENT OPTION
+========================================= */
+
+.payment_option {
+    width: 100%;
+
+    min-height: 60px;
+
+    padding: 12px 14px;
+
+    margin-bottom: 8px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid #ddd;
+
+    border-radius: 4px;
+
+    background-color: #fff;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+/* =========================================
+   ACTIVE OPTION
+========================================= */
+
+.payment_option_active {
+    border-color: #003b4d;
+
+    background-color: #f8fbfc;
+}
+
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.payment_option_left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   RADIO BUTTON
+========================================= */
+
+.payment_option input[type="radio"] {
+    width: 15px;
+
+    height: 15px;
+
+    margin: 0;
+
+    accent-color: #003b4d;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.payment_text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.payment_text h3 {
+    margin: 0;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #222;
+}
+
+.payment_text p {
+    margin: 0;
+
+    font-size: 9px;
+
+    color: #777;
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+.payment_option:hover {
+    border-color: #003b4d;
+}
+
+/* =========================================
+   PAY NOW BUTTON
+========================================= */
+
+.pay_now_button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    background-color: #003b4d;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 4px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.pay_now_button:hover {
+    background-color: #00566f;
+}
+
+.pay_now_button:disabled {
+    background-color: #a0aab0;
+    cursor: not-allowed;
+}
+
+
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .payment_option {
+        padding: 11px 12px;
+    }
+
+    .payment_text h3 {
+        font-size: 11px;
+    }
+
+    .payment_text p {
+        font-size: 9px;
+    }
+
+    .pay_now_button {
+        padding: 11px;
+        font-size: 11px;
+    }
+
+}

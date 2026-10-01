@@ -1,0 +1,166 @@
+/* =========================================
+   DELIVERY ADDRESS
+========================================= */
+
+.delivery_address {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   ADDRESS TITLE
+========================================= */
+
+.address_title {
+    margin: 0 0 8px 0;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    line-height: 16px;
+
+    color: #222;
+}
+
+
+/* =========================================
+   PRIMARY ADDRESS CARD
+========================================= */
+
+.primary_address_card {
+    width: 100%;
+
+    min-height: 92px;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #003b4d;
+
+    border-radius: 4px;
+
+    background-color: #ffffff;
+}
+
+
+/* =========================================
+   NAME
+========================================= */
+
+.address_name {
+    margin: 0 0 7px 0;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    line-height: 15px;
+
+    color: #222;
+}
+
+
+/* =========================================
+   ADDRESS
+========================================= */
+
+.address_details {
+    margin: 0 0 8px 0;
+
+    font-size: 9px;
+
+    font-weight: 400;
+
+    line-height: 14px;
+
+    color: #444;
+
+    max-width: 100%;
+}
+
+
+/* =========================================
+   PHONE
+========================================= */
+
+.address_phone {
+    margin: 0;
+
+    font-size: 9px;
+
+    font-weight: 400;
+
+    line-height: 13px;
+
+    color: #444;
+}
+
+
+/* =========================================
+   NO PRIMARY ADDRESS
+========================================= */
+
+.no_primary_address {
+    width: 100%;
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ddd;
+
+    border-radius: 4px;
+
+    font-size: 10px;
+
+    color: #777;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .address_title {
+        font-size: 13px;
+    }
+
+    .primary_address_card {
+        min-height: 95px;
+    }
+
+    .address_name {
+        font-size: 12px;
+    }
+
+    .address_details,
+    .address_phone {
+        font-size: 10px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .primary_address_card {
+        padding: 12px;
+    }
+
+    .address_details {
+        line-height: 15px;
+    }
+}

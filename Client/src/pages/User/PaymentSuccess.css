@@ -1,0 +1,288 @@
+/* =========================================
+   MAIN WRAPPER
+========================================= */
+
+.payment-success-wrapper {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   ACTUAL PAYMENT PAGE
+   This is the real payment page behind
+   the success popup.
+========================================= */
+
+.payment-page-background {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   OVERLAY
+========================================= */
+
+.payment-success-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.58);
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    z-index: 100;
+}
+
+
+/* =========================================
+   SUCCESS MODAL
+========================================= */
+
+.payment-success-modal {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 520px;
+
+    min-height: 310px;
+
+    background: #ffffff;
+
+    border: 1px solid #dedede;
+
+    border-radius: 5px;
+
+    padding: 30px 36px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    z-index: 101;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================
+   SUCCESS ICON
+========================================= */
+
+.success-icon {
+    width: 92px;
+
+    height: 92px;
+
+    margin: 0 auto 22px;
+}
+
+
+.success-icon svg {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.payment-success-modal h1 {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.payment-success-modal p {
+    margin-top: 11px;
+
+    margin-bottom: 25px;
+
+    color: #333333;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================
+   BUTTON CONTAINER
+========================================= */
+
+.success-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* =========================================
+   BOTH BUTTONS
+========================================= */
+
+.success-buttons button {
+    height: 40px;
+
+    min-width: 103px;
+
+    padding: 0 20px;
+
+    border-radius: 2px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+/* =========================================
+   BACK TO HOME
+========================================= */
+
+.back-home-button {
+    background: #ffffff;
+
+    color: #063c51;
+
+    border: 1px solid #063c51;
+}
+
+
+.back-home-button:hover {
+    background: #f4f8fa;
+}
+
+
+/* =========================================
+   TRACK ORDER
+========================================= */
+
+.track-order-button {
+    background: #063c51;
+
+    color: #ffffff;
+
+    border: 1px solid #063c51;
+}
+
+
+.track-order-button:hover {
+    background: #052f40;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .payment-success-modal {
+        width: 480px;
+
+        max-width: calc(100% - 40px);
+
+        padding: 28px 30px;
+    }
+
+    .success-icon {
+        width: 82px;
+
+        height: 82px;
+    }
+
+    .payment-success-modal h1 {
+        font-size: 20px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+    .payment-success-modal {
+        width: calc(100% - 30px);
+
+        min-height: auto;
+
+        padding: 25px 20px;
+    }
+
+
+    .success-icon {
+        width: 75px;
+
+        height: 75px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .payment-success-modal h1 {
+        font-size: 18px;
+    }
+
+
+    .payment-success-modal p {
+        font-size: 12px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .success-buttons {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+
+    .success-buttons button {
+        width: 100%;
+    }
+}

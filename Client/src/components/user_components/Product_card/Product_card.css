@@ -1,0 +1,191 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.product_disp {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0 auto;
+    padding: clamp(10px, 6vw, 78px);
+    gap: clamp(16px, 3vw, 50px);
+    align-items: start;
+    justify-items: stretch;
+    justify-content: start;
+    padding-top: 0;
+}
+
+/* PRODUCT CARD */
+.product_card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+/* IMAGE BOX */
+.product_card_img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 80px;
+    border-bottom-right-radius: 80px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    transition: border-radius 0.4s ease;
+}
+
+/* HOVER EFFECT */
+.product_card:hover .product_card_img {
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 80px;
+    border-bottom-left-radius: 80px;
+}
+
+/* IMAGE */
+.product_card_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: clamp(20px, 4vw, 60px);
+}
+
+/* PRODUCT NAME */
+.product_card_name {
+    width: 100%;
+    margin-top: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product_card_name p {
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: clamp(14px, 2vw, 26px);
+    line-height: 1.4;
+    text-transform: capitalize;
+}
+
+/* PRICE */
+.price p {
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: clamp(16px, 2vw, 26px);
+    padding-top: 8px;
+    line-height: 1.4;
+}
+
+/* BUTTON */
+.product_card_btn {
+    padding-top: 12px;
+}
+
+.product_card_btn button {
+    width: 100%;
+    background: rgba(0, 53, 75, 1);
+    color: white;
+    padding: clamp(10px, 2vw, 14px);
+    border: none;
+    border-radius: 6px;
+    font-size: clamp(12px, 1vw, 16px);
+    cursor: pointer;
+}
+
+/* LOAD MORE */
+.load_more_container {
+    display: flex;
+    justify-content: center;
+    padding: 10px clamp(10px, 6vw, 78px) clamp(30px, 5vw, 60px);
+}
+
+.load_more_btn {
+    background: rgba(0, 53, 75, 1);
+    color: white;
+    padding: 14px clamp(30px, 5vw, 60px);
+    border: none;
+    border-radius: 6px;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: clamp(14px, 2vw, 18px);
+    cursor: pointer;
+    transition: 1.9s ease;
+}
+
+.load_more_btn:hover {
+    background: rgba(0, 80, 110, 1);
+}
+
+.load_more_btn:active {
+    background: rgba(0, 35, 50, 1);
+    transform: scale(0.98);
+}
+
+
+.product_card_img {
+    position: relative; /* needed so the heart can be positioned inside the image */
+}
+
+.card_wishlist_btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.card_wishlist_btn:hover {
+    transform: scale(1.1);
+}
+/* TABLET */
+@media (max-width: 900px) {
+    .product_disp {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product_card_img {
+        border-top-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
+
+    .product_card:hover .product_card_img {
+        border-top-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 50px;
+        border-bottom-left-radius: 50px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    .product_disp {
+        grid-template-columns: 1fr;
+    }
+
+    .product_card_img {
+        border-top-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+    }
+
+    .product_card:hover .product_card_img {
+        border-top-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 40px;
+        border-bottom-left-radius: 40px;
+    }
+}

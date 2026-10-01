@@ -1,0 +1,1232 @@
+/* =========================================
+   RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   MAIN PRODUCT CONTAINER
+========================================= */
+
+.admin_container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 38px 42px;
+    background: #f8fafb;
+    font-family: "Inter", Arial, sans-serif;
+    color: #1f2937;
+}
+
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.product-page-header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #111827;
+}
+
+.product-page-header p {
+    margin-top: 5px;
+    font-size: 13px;
+    color: #7b8490;
+}
+
+
+/* =========================================
+   ADD PRODUCT SECTION
+========================================= */
+
+.add_product_compartment {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+    margin-bottom: 28px;
+}
+
+
+/* =========================================
+   ADD PRODUCT BUTTON
+========================================= */
+
+.add_product_compartment button {
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 6px;
+    background: rgb(5, 127, 11);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add_product_compartment button:hover {
+    background: rgb(4, 108, 9);
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   OLD FORM CONTAINER
+   Not displayed anymore because form
+   is now a popup.
+========================================= */
+
+.product_add_form {
+    display: none;
+}
+
+
+/* =========================================
+   ADD PRODUCT POPUP OVERLAY
+========================================= */
+
+.add_product_modal_overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    backdrop-filter: blur(3px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    z-index: 9999;
+
+    overflow-y: auto;
+}
+
+
+/* =========================================
+   ADD PRODUCT POPUP
+========================================= */
+
+.add_product_modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 900px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 30px 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.2);
+
+    animation: addProductPopup 0.25s ease;
+}
+
+
+/* =========================================
+   POPUP ANIMATION
+========================================= */
+
+@keyframes addProductPopup {
+
+    from {
+        opacity: 0;
+        transform: scale(0.94) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   POPUP TITLE
+========================================= */
+
+.add_product_modal h2 {
+    margin: 0 0 28px;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+/* =========================================
+   POPUP CLOSE BUTTON
+========================================= */
+
+.add_product_close_btn {
+    position: absolute;
+
+    top: 14px;
+    right: 16px;
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #7b8490;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.add_product_close_btn:hover {
+    background: #f5f5f5;
+    color: #dc2626;
+}
+
+
+/* =========================================
+   ADD PRODUCT FORM
+========================================= */
+
+.add_product_modal form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   INPUT ROW
+========================================= */
+
+.add_product_modal .input_field_form_style {
+    width: 100%;
+
+    display: flex;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================
+   INPUT FIELD
+========================================= */
+
+.add_product_modal .admin_input_field {
+    flex: 1;
+
+    min-width: 220px;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.add_product_modal .admin_input_field label,
+.add_product_modal .input_field_description label {
+    margin-bottom: 8px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.add_product_modal .admin_input_field input,
+.add_product_modal .admin_input_field select,
+.add_product_modal .input_field_description input,
+.add_product_modal .input_field_description textarea {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 13px;
+
+    border: 1px solid #d9dee3;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 13px;
+
+    transition: all 0.2s ease;
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.add_product_modal .admin_input_field select {
+    cursor: pointer;
+}
+
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.add_product_modal input::placeholder {
+    color: #a0a8b1;
+}
+
+
+/* =========================================
+   INPUT FOCUS
+========================================= */
+
+.add_product_modal .admin_input_field input:focus,
+.add_product_modal .admin_input_field select:focus,
+.add_product_modal .input_field_description input:focus,
+.add_product_modal .input_field_description textarea:focus {
+    border-color: rgb(5, 127, 11);
+
+    box-shadow:
+        0 0 0 2px rgba(5, 127, 11, 0.08);
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.add_product_modal .input_field_description {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================================
+   DESCRIPTION INPUT
+========================================= */
+
+.add_product_modal .input_field_description input {
+    height: 42px;
+}
+
+
+/* =========================================
+   IMAGE UPLOAD
+========================================= */
+
+.add_product_modal .image_upload_box {
+    width: 100%;
+
+    height: 120px;
+
+    border: 2px dashed #d1d5db;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    margin-top: 5px;
+
+    background: #fafafa;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.add_product_modal .image_upload_box:hover {
+    border-color: rgb(5, 127, 11);
+
+    background: #f7fbf7;
+}
+
+.add_product_modal .image_upload_box input {
+    width: 90%;
+
+    font-size: 12px;
+
+    color: #66717c;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error_text {
+    margin-top: 6px;
+
+    font-size: 11px;
+
+    color: #dc2626;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON CONTAINER
+========================================= */
+
+.add_product_modal .button_container {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
+
+.add_product_modal .button_container button {
+    min-width: 150px;
+
+    height: 38px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: rgb(5, 127, 11);
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.add_product_modal .button_container button:hover {
+    background: rgb(4, 108, 9);
+}
+
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+/* =========================================
+   TABLE CONTAINER WITH SCROLLER
+========================================= */
+
+.table {
+    width: 100%;
+    max-height: 600px;
+    background: #ffffff;
+    border: 1px solid #edf0f2;
+    border-radius: 12px;
+
+    /* Vertical + horizontal scrolling */
+    overflow-y: auto;
+    overflow-x: auto;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    background: #ffffff;
+    table-layout: fixed;
+}
+
+/* =========================================
+   STICKY TABLE HEADER
+========================================= */
+
+.table thead {
+    background: #f5f7f9;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table thead tr {
+    height: 48px;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table table {
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+
+    table-layout: fixed;
+}
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.table thead {
+    background: #f5f7f9;
+}
+
+.table thead tr {
+    height: 48px;
+}
+
+
+/* =========================================
+   TABLE HEADINGS
+========================================= */
+
+.table th {
+    padding: 0 20px;
+
+    text-align: left;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    text-transform: uppercase;
+
+    color: #626b76;
+
+    border-bottom: 1px solid #e8ecef;
+}
+
+
+/* =========================================
+   TABLE COLUMN WIDTHS
+========================================= */
+
+.table th:nth-child(1),
+.table td:nth-child(1) {
+    width: 22%;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+    width: 15%;
+}
+
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 11%;
+}
+
+.table th:nth-child(4),
+.table td:nth-child(4) {
+    width: 13%;
+}
+
+.table th:nth-child(5),
+.table td:nth-child(5) {
+    width: 10%;
+}
+
+.table th:nth-child(6),
+.table td:nth-child(6) {
+    width: 17%;
+}
+
+.table th:nth-child(7),
+.table td:nth-child(7) {
+    width: 12%;
+}
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.table tbody tr {
+    height: 54px;
+
+    transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: #fafcfc;
+}
+
+
+/* =========================================
+   TABLE CELLS
+========================================= */
+
+.table td {
+    padding: 0 20px;
+
+    font-size: 12px;
+
+    color: #5f6873;
+
+    border-bottom: 1px solid #edf0f2;
+
+    vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   PRODUCT NAME
+========================================= */
+
+.table td:first-child {
+    font-weight: 600;
+
+    color: #252b32;
+}
+
+
+/* =========================================
+   ACTION BUTTON CONTAINER
+========================================= */
+
+.table td:nth-child(6) > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+/* =========================================
+   SHOW BUTTON
+========================================= */
+
+.table td:nth-child(6) button:first-child {
+    min-width: 58px;
+
+    height: 27px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d9dee3;
+
+    border-radius: 5px;
+
+    background: #f8fafb;
+
+    color: #626b76;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.table td:nth-child(6) button:first-child:hover {
+    background: #eef1f3;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.table td:nth-child(6) button:last-child {
+    min-width: 58px;
+
+    height: 27px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d9eee8;
+
+    border-radius: 5px;
+
+    background: #f0faf7;
+
+    color: #4f8f7c;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.table td:nth-child(6) button:last-child:hover {
+    background: #e3f6f0;
+
+    border-color: #c6e7dd;
+
+    color: #3e7968;
+}
+
+
+/* =========================================
+   STATUS BUTTON
+========================================= */
+
+.table td:nth-child(7) button {
+    min-width: 65px;
+
+    height: 27px;
+
+    padding: 0 13px;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    background: #effaf3;
+
+    color: #42a267;
+
+    border: 1px solid #dcefe2;
+}
+
+.table td:nth-child(7) button:hover {
+    background: #e3f5e9;
+}
+
+
+/* =========================================
+   PRODUCT DETAILS / EDIT OVERLAY
+========================================= */
+
+.modal_overlay {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 999;
+}
+
+
+/* =========================================
+   PRODUCT DETAILS PANEL
+========================================= */
+
+.product_details_panel {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+
+    max-width: 90%;
+
+    max-height: 85vh;
+
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.15);
+
+    overflow-y: auto;
+
+    z-index: 1000;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.product_details_panel .close_btn {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #7b8490;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.product_details_panel .close_btn:hover {
+    background: #f5f5f5;
+
+    color: #dc2626;
+}
+
+
+/* =========================================
+   PANEL HEADING
+========================================= */
+
+.product_details_panel h2 {
+    margin-bottom: 20px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #111827;
+}
+
+
+/* =========================================
+   PRODUCT DETAILS TEXT
+========================================= */
+
+.product_details_panel p {
+    margin-bottom: 12px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    color: #66717c;
+}
+
+.product_details_panel p strong {
+    display: inline-block;
+
+    width: 120px;
+
+    color: #374151;
+}
+
+
+/* =========================================
+   PRODUCT DETAILS IMAGE
+========================================= */
+
+.product_details_panel > img {
+    display: block;
+
+    width: 100%;
+
+    height: 220px;
+
+    margin: 0 auto 20px;
+
+    object-fit: contain;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 8px;
+
+    background: #fafafa;
+}
+
+
+/* =========================================
+   EDIT FORM INSIDE PANEL
+========================================= */
+
+.product_details_panel form {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+}
+
+
+/* =========================================
+   EDIT FORM INPUTS
+========================================= */
+
+.product_details_panel form .admin_input_field {
+    width: 100%;
+
+    min-width: 0;
+}
+
+
+/* =========================================
+   EDIT INPUTS
+========================================= */
+
+.product_details_panel form input,
+.product_details_panel form select {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 13px;
+
+    border: 1px solid #d9dee3;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    color: #374151;
+}
+
+.product_details_panel form input:focus,
+.product_details_panel form select:focus {
+    border-color: rgb(5, 127, 11);
+
+    box-shadow:
+        0 0 0 2px rgba(5, 127, 11, 0.08);
+}
+
+
+/* =========================================
+   EDIT TEXTAREA
+========================================= */
+
+.product_details_panel textarea {
+    width: 100%;
+
+    min-height: 90px;
+
+    padding: 10px 13px;
+
+    border: 1px solid #d9dee3;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    resize: vertical;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    color: #374151;
+}
+
+.product_details_panel textarea:focus {
+    border-color: rgb(5, 127, 11);
+
+    box-shadow:
+        0 0 0 2px rgba(5, 127, 11, 0.08);
+}
+
+
+/* =========================================
+   CURRENT IMAGE IN EDIT
+========================================= */
+
+.product_details_panel form .admin_input_field img {
+    width: 150px;
+
+    height: 150px;
+
+    object-fit: contain;
+
+    margin-top: 5px;
+
+    border: 1px solid #edf0f2;
+
+    border-radius: 8px;
+
+    background: #fafafa;
+}
+
+
+/* =========================================
+   UPDATE BUTTON
+========================================= */
+
+.product_details_panel form button[type="submit"] {
+    align-self: center;
+
+    min-width: 150px;
+
+    height: 38px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: rgb(5, 127, 11);
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.product_details_panel form button[type="submit"]:hover {
+    background: rgb(4, 108, 9);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .admin_container {
+        padding: 30px;
+    }
+
+    .table th,
+    .table td {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+/* =========================================
+   TABLET / SMALL LAPTOP
+========================================= */
+
+@media (max-width: 768px) {
+
+    .admin_container {
+        padding: 25px 20px;
+    }
+
+    .product-page-header h1 {
+        font-size: 23px;
+    }
+
+    .add_product_compartment {
+        justify-content: flex-start;
+    }
+
+    .add_product_modal_overlay {
+        padding: 15px;
+    }
+
+    .add_product_modal {
+        max-height: 92vh;
+
+        padding: 25px 20px;
+    }
+
+    .add_product_modal h2 {
+        font-size: 20px;
+
+        margin-bottom: 22px;
+    }
+
+    .add_product_modal .input_field_form_style {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .add_product_modal .admin_input_field {
+        width: 100%;
+
+        min-width: 100%;
+    }
+
+    .table table {
+        min-width: 850px;
+    }
+
+    .product_details_panel {
+        width: 90%;
+
+        padding: 20px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+    .admin_container {
+        padding: 20px 15px;
+    }
+
+    .product-page-header h1 {
+        font-size: 21px;
+    }
+
+    .add_product_compartment {
+        margin-top: 15px;
+
+        margin-bottom: 20px;
+    }
+
+    .add_product_compartment button {
+        height: 36px;
+
+        padding: 0 15px;
+
+        font-size: 12px;
+    }
+
+    .add_product_modal {
+        width: 100%;
+
+        max-height: 94vh;
+
+        padding: 22px 16px;
+    }
+
+    .add_product_modal h2 {
+        font-size: 18px;
+    }
+
+    .add_product_modal .admin_input_field input,
+    .add_product_modal .admin_input_field select,
+    .add_product_modal .input_field_description input {
+        height: 40px;
+
+        font-size: 12px;
+    }
+
+    .add_product_modal .button_container button {
+        width: 100%;
+    }
+
+    .table table {
+        min-width: 850px;
+    }
+
+    .product_details_panel {
+        width: 95%;
+
+        max-height: 90vh;
+
+        padding: 18px;
+    }
+
+    .product_details_panel h2 {
+        font-size: 18px;
+    }
+
+    .product_details_panel p {
+        font-size: 12px;
+    }
+
+    .product_details_panel p strong {
+        width: 100px;
+    }
+
+}
