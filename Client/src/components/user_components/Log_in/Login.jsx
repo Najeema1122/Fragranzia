@@ -3,7 +3,7 @@ import "./Login.css";
 import signup_left_image from "../../../assets/sign_up_left.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import UserService from "../../../services/UserService";
+import UserService from "../../../Services/UserService";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -38,14 +38,14 @@ const Login = () => {
         let error = false;
 
         if (name === "email") {
-            if (formData.email.trim() === "") {
+            if (!formData.email.trim()) {
                 error = "empty";
             } else if (!validateEmail(formData.email)) {
                 error = "invalid";
             }
         }
 
-        if (name === "password" && formData.password.trim() === "") {
+        if (name === "password" && !formData.password.trim()) {
             error = true;
         }
 
@@ -63,13 +63,13 @@ const Login = () => {
             password: false,
         };
 
-        if (formData.email.trim() === "") {
+        if (!formData.email.trim()) {
             errors.email = "empty";
         } else if (!validateEmail(formData.email)) {
             errors.email = "invalid";
         }
 
-        if (formData.password.trim() === "") {
+        if (!formData.password.trim()) {
             errors.password = true;
         }
 
@@ -80,11 +80,17 @@ const Login = () => {
         setIsSubmitting(true);
 
         try {
-            const data = await login(formData);
+            const result = await login(formData);
 
-            if (data.token) {
-                localStorage.setItem("token", data.token);
+            // Supports either { token, user: { role } } or { token, role }.
+            const token = result.token;
+            const role = result.user?.role ?? result.role;
+
+            if (!token) {
+                throw new Error("The login response did not include a token.");
             }
+
+            localStorage.setItem("token", token);
 
             await Swal.fire({
                 title: "Log In",
@@ -94,11 +100,19 @@ const Login = () => {
             });
 
             setFormData({ email: "", password: "" });
-            navigate("/");
+
+            if (role === "admin") {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
         } catch (error) {
             await Swal.fire({
                 title: "Log In",
-                text: error.response?.data?.message || "Login failed",
+                text:
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Login failed",
                 icon: "error",
                 confirmButtonText: "OK",
             });
@@ -156,7 +170,7 @@ const Login = () => {
                                     name="password"
                                     value={formData.password}
                                     placeholder="Enter your password"
-                                    autoComplete="new-password"
+                                    autoComplete="current-password"
                                     onChange={onHandleChange}
                                     onBlur={onHandleBlur}
                                 />
