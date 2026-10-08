@@ -5,6 +5,7 @@ import { useState } from "react";
 import signup_left_image from "../../../assets/sign_up_left.jpg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -94,7 +95,14 @@ const Signup = () => {
                 formData
             );
 
-            alert(res.data.message);
+            // alert(res.data.message);
+            Swal.fire({
+                title:"Sign up",
+                text:"Registered Successfully",
+                icon:"success",
+                confirmButtonText:"OK"
+            });
+            
 
             // Clear form
             setFormData({

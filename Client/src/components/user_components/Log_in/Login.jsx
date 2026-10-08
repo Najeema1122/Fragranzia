@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./Login.css";
 import signup_left_image from "../../../assets/sign_up_left.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import Swal from "sweetalert2";
+import UserService from "../../../services/UserService";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = UserService();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -16,6 +18,8 @@ const Login = () => {
         email: false,
         password: false,
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateEmail = (email) =>
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -29,81 +33,78 @@ const Login = () => {
         }));
     };
 
+    const onHandleBlur = (e) => {
+        const { name } = e.target;
+        let error = false;
+
+        if (name === "email") {
+            if (formData.email.trim() === "") {
+                error = "empty";
+            } else if (!validateEmail(formData.email)) {
+                error = "invalid";
+            }
+        }
+
+        if (name === "password" && formData.password.trim() === "") {
+            error = true;
+        }
+
+        setFormErr((prev) => ({
+            ...prev,
+            [name]: error,
+        }));
+    };
+
     const onHandleSubmit = async (e) => {
         e.preventDefault();
 
-        let next = true;
-
-        const err = {
+        const errors = {
             email: false,
             password: false,
         };
 
         if (formData.email.trim() === "") {
-            next = false;
-            err.email = "empty";
+            errors.email = "empty";
         } else if (!validateEmail(formData.email)) {
-            next = false;
-            err.email = "invalid";
+            errors.email = "invalid";
         }
 
         if (formData.password.trim() === "") {
-            next = false;
-            err.password = true;
+            errors.password = true;
         }
 
-        setFormErr(err);
+        setFormErr(errors);
 
-        if (!next) return;
+        if (errors.email || errors.password) return;
+
+        setIsSubmitting(true);
 
         try {
-            const res = await axios.post(
-                "http://localhost:5000/auth/login",
-                formData
-            );
+            const data = await login(formData);
 
-            alert(res.data.message);
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+            }
 
-            // Save JWT token
-            localStorage.setItem("token", res.data.token);
-
-            // Clear form
-            setFormData({
-                email: "",
-                password: "",
+            await Swal.fire({
+                title: "Log In",
+                text: "Logged in successfully",
+                icon: "success",
+                confirmButtonText: "OK",
             });
 
-            // Navigate to home
+            setFormData({ email: "", password: "" });
             navigate("/");
-
         } catch (error) {
-            alert(error.response?.data?.message || "Login failed");
+            await Swal.fire({
+                title: "Log In",
+                text: error.response?.data?.message || "Login failed",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        } finally {
+            setIsSubmitting(false);
         }
-    };
-
-    const onHandleBlur = (e) => {
-        const { name } = e.target;
-
-        let err = false;
-
-        if (name === "email") {
-            if (formData.email.trim() === "") {
-                err = "empty";
-            } else if (!validateEmail(formData.email)) {
-                err = "invalid";
-            }
-        }
-
-        if (name === "password") {
-            if (formData.password.trim() === "") {
-                err = true;
-            }
-        }
-
-        setFormErr((prev) => ({
-            ...prev,
-            [name]: err,
-        }));
     };
 
     return (
@@ -113,7 +114,6 @@ const Login = () => {
             </div>
 
             <div className="sign_up_right_container">
-
                 <div className="sign_up_social">
                     <button type="button">Google</button>
                     <button type="button">Facebook</button>
@@ -125,13 +125,11 @@ const Login = () => {
                     className="sign_up_form"
                 >
                     <div className="sign_up_email">
-
                         <div className="hr">
                             <hr /> Or Login with Email <hr />
                         </div>
 
                         <div className="inputFields">
-
                             <div className="input_field">
                                 <input
                                     type="email"
@@ -169,23 +167,19 @@ const Login = () => {
                             </div>
 
                             <Link to="">Forgot Password?</Link>
-
                         </div>
 
                         <div className="signup_button">
-                            <button type="submit">
-                                Log In
+                            <button type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? "Logging in..." : "Log In"}
                             </button>
                         </div>
-
                     </div>
                 </form>
 
                 <div className="login_link">
-                    Don't have an account?{" "}
-                    <Link to="/signup">Sign Up</Link>
+                    Don't have an account? <Link to="/signup">Sign Up</Link>
                 </div>
-
             </div>
         </div>
     );
