@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserService from "../../../Services/UserService";
 import OrderDetails from "./OrderDetails/OrderDetails";
 import './Profile_Layout..css'
+import Swal from "sweetalert2";
 
 const Profile_LayOut = () => {
 
@@ -168,7 +169,13 @@ const Profile_LayOut = () => {
 
             setIsEditingProfile(false);
 
-            alert("Profile updated successfully");
+           // alert("Profile updated successfully");
+            Swal.fire({
+                title: "Profile",
+                text: "Profile Updated succeddfully",
+                icon: "Sucess",
+                confirmButtonText: "OK"
+            });
 
         } catch (err) {
 
@@ -177,10 +184,16 @@ const Profile_LayOut = () => {
                 err.response?.data || err.message
             );
 
-            alert(
-                err.response?.data?.message ||
-                "Failed to update profile"
-            );
+            // alert(
+            //     err.response?.data?.message ||
+            //     "Failed to update profile"
+            // );
+            Swal.fire({
+
+                text: err.response?.data?.message || "Failed to update profile",
+
+                confirmButtonText: "OK"
+            });
 
         }
 
@@ -365,7 +378,13 @@ const Profile_LayOut = () => {
             setShowAddressForm(false);
 
 
-            alert("Address added successfully");
+            // alert("Address added successfully");
+            Swal.fire({
+
+                text: "Address Added Successfully",
+
+                confirmButtonText: "OK"
+            });
 
         } catch (err) {
 
@@ -374,10 +393,16 @@ const Profile_LayOut = () => {
                 err.response?.data || err.message
             );
 
-            alert(
-                err.response?.data?.message ||
-                "Failed to add address"
-            );
+            // alert(
+            //     err.response?.data?.message ||
+            //     "Failed to add address"
+            // );
+            Swal.fire({
+
+                text: err.response?.data?.message || "Failed to add address",
+                Icon: Fail,
+                confirmButtonText: "OK"
+            });
 
         }
 
@@ -597,413 +622,261 @@ const Profile_LayOut = () => {
             }
 
 
-            alert(
-                response?.message ||
-                "Return request submitted successfully"
-            );
+            // alert(
+            //     response?.message ||
+            //     "Return request submitted successfully"
+            // );
+            Swal.fire({
+
+               text: response?.message || "Return request submitted successfully",
+
+                confirmButtonText: "OK"
+            });
 
 
-            return response;
+        return response;
+
+    } catch (err) {
+
+        console.log(
+            "Return order error:",
+            err.response?.data ||
+            err.message
+        );
+
+
+        // alert(
+        //     err.response?.data?.message ||
+        //     "Failed to return order"
+        // );
+        Swal.fire ({
+            text:err.response?.data?.message ||  "Failed to return order",
+            confirmButtonText: "OK"
+        })
+
+
+        throw err;
+
+    }
+
+};
+// =========================================
+// CANCEL ORDER - UPDATE CARD IMMEDIATELY
+// =========================================
+
+const handleOrderCancelled = (cancelledOrder) => {
+
+    if (!cancelledOrder) return;
+
+    // Update the order card immediately
+    setOrders((prevOrders) =>
+        prevOrders.map((item) =>
+            item._id === cancelledOrder._id
+                ? cancelledOrder
+                : item
+        )
+    );
+
+    // Update the currently opened order details
+    setSelectedOrder(cancelledOrder);
+};
+
+
+// =========================================
+// GET PROFILE
+// =========================================
+
+useEffect(() => {
+
+    const fetchProfile = async () => {
+
+        try {
+
+            const response =
+                await getProfile();
+
+
+            if (response?.user) {
+
+                setProfile({
+                    full_name:
+                        response.user.name || "",
+
+                    email:
+                        response.user.email || "",
+
+                    phone_number:
+                        response.user.phone || "",
+
+                    dob:
+                        response.user.dob || "",
+
+                    gender:
+                        response.user.gender || ""
+                });
+
+            }
 
         } catch (err) {
 
             console.log(
-                "Return order error:",
+                "Get profile error:",
                 err.response?.data ||
                 err.message
             );
 
+        }
 
-            alert(
-                err.response?.data?.message ||
-                "Failed to return order"
+    };
+
+
+    fetchProfile();
+
+}, []);
+
+
+// =========================================
+// GET ADDRESSES
+// =========================================
+
+useEffect(() => {
+
+    const fetchAddress = async () => {
+
+        try {
+
+            const res =
+                await getAddress();
+
+
+            setAddresses(
+                res.addresses || []
             );
 
+        } catch (err) {
 
-            throw err;
+            console.log(
+                "Get address error:",
+                err
+            );
 
         }
 
     };
-    // =========================================
-    // CANCEL ORDER - UPDATE CARD IMMEDIATELY
-    // =========================================
 
-    const handleOrderCancelled = (cancelledOrder) => {
 
-        if (!cancelledOrder) return;
+    fetchAddress();
 
-        // Update the order card immediately
-        setOrders((prevOrders) =>
-            prevOrders.map((item) =>
-                item._id === cancelledOrder._id
-                    ? cancelledOrder
-                    : item
-            )
-        );
+}, []);
 
-        // Update the currently opened order details
-        setSelectedOrder(cancelledOrder);
+
+// =========================================
+// GET ORDERS
+// =========================================
+
+useEffect(() => {
+
+    if (!showOrders) return;
+
+
+    const fetchOrders = async () => {
+
+        try {
+
+            setOrdersLoading(true);
+
+
+            const res =
+                await getOrders();
+
+
+            setOrders(
+                res.orders || []
+            );
+
+        } catch (err) {
+
+            console.log(
+                "getOrders error:",
+                err
+            );
+
+        } finally {
+
+            setOrdersLoading(false);
+
+        }
+
     };
 
 
-    // =========================================
-    // GET PROFILE
-    // =========================================
+    fetchOrders();
 
-    useEffect(() => {
-
-        const fetchProfile = async () => {
-
-            try {
-
-                const response =
-                    await getProfile();
+}, [showOrders]);
 
 
-                if (response?.user) {
+return (
 
-                    setProfile({
-                        full_name:
-                            response.user.name || "",
+    <div className="Profile_container">
 
-                        email:
-                            response.user.email || "",
-
-                        phone_number:
-                            response.user.phone || "",
-
-                        dob:
-                            response.user.dob || "",
-
-                        gender:
-                            response.user.gender || ""
-                    });
-
-                }
-
-            } catch (err) {
-
-                console.log(
-                    "Get profile error:",
-                    err.response?.data ||
-                    err.message
-                );
-
-            }
-
-        };
-
-
-        fetchProfile();
-
-    }, []);
-
-
-    // =========================================
-    // GET ADDRESSES
-    // =========================================
-
-    useEffect(() => {
-
-        const fetchAddress = async () => {
-
-            try {
-
-                const res =
-                    await getAddress();
-
-
-                setAddresses(
-                    res.addresses || []
-                );
-
-            } catch (err) {
-
-                console.log(
-                    "Get address error:",
-                    err
-                );
-
-            }
-
-        };
-
-
-        fetchAddress();
-
-    }, []);
-
-
-    // =========================================
-    // GET ORDERS
-    // =========================================
-
-    useEffect(() => {
-
-        if (!showOrders) return;
-
-
-        const fetchOrders = async () => {
-
-            try {
-
-                setOrdersLoading(true);
-
-
-                const res =
-                    await getOrders();
-
-
-                setOrders(
-                    res.orders || []
-                );
-
-            } catch (err) {
-
-                console.log(
-                    "getOrders error:",
-                    err
-                );
-
-            } finally {
-
-                setOrdersLoading(false);
-
-            }
-
-        };
-
-
-        fetchOrders();
-
-    }, [showOrders]);
-
-
-    return (
-
-        <div className="Profile_container">
-
-            {/* =====================================
+        {/* =====================================
                 PAGE TITLE
             ===================================== */}
 
-            <h1>Profile</h1>
+        <h1>Profile</h1>
 
 
-            {/* =====================================
+        {/* =====================================
                 PROFILE TABS
             ===================================== */}
 
-            <div>
+        <div>
 
-                <div className="profile_tabs">
+            <div className="profile_tabs">
+
+                <button
+                    type="button"
+                    className={`profile_tab_btn ${showForm ? "active" : ""
+                        }`}
+                    onClick={handleShowProfile}
+                >
+                    Profile
+                </button>
+
+
+                <button
+                    type="button"
+                    className={`profile_tab_btn ${showAddressPage ? "active" : ""
+                        }`}
+                    onClick={handleShowAddressPage}
+                >
+                    Address
+                </button>
+
+
+                <button
+                    type="button"
+                    className={`profile_tab_btn ${showOrders ? "active" : ""
+                        }`}
+                    onClick={handleShowOrders}
+                >
+                    My Order
+                </button>
+
+
+                {showAddressPage && (
 
                     <button
                         type="button"
-                        className={`profile_tab_btn ${showForm ? "active" : ""
-                            }`}
-                        onClick={handleShowProfile}
+                        className="add_address_btn"
+                        onClick={() =>
+                            setShowAddressForm(
+                                !showAddressForm
+                            )
+                        }
                     >
-                        Profile
+                        Add Address
                     </button>
-
-
-                    <button
-                        type="button"
-                        className={`profile_tab_btn ${showAddressPage ? "active" : ""
-                            }`}
-                        onClick={handleShowAddressPage}
-                    >
-                        Address
-                    </button>
-
-
-                    <button
-                        type="button"
-                        className={`profile_tab_btn ${showOrders ? "active" : ""
-                            }`}
-                        onClick={handleShowOrders}
-                    >
-                        My Order
-                    </button>
-
-
-                    {showAddressPage && (
-
-                        <button
-                            type="button"
-                            className="add_address_btn"
-                            onClick={() =>
-                                setShowAddressForm(
-                                    !showAddressForm
-                                )
-                            }
-                        >
-                            Add Address
-                        </button>
-
-                    )}
-
-                </div>
-
-
-                {/* =====================================
-                    PROFILE FORM
-                ===================================== */}
-
-                {showForm && (
-
-                    <div className="Profile_Add_form">
-
-                        <form
-                            onSubmit={
-                                handleEditOrSaveProfile
-                            }
-                        >
-
-                            <div className="profile_form_group">
-
-                                <label>
-                                    Full Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="full_name"
-                                    value={
-                                        profile.full_name
-                                    }
-                                    onChange={
-                                        onHandleChange
-                                    }
-                                    disabled={
-                                        !isEditingProfile
-                                    }
-                                />
-
-                            </div>
-
-
-                            <div className="profile_form_group">
-
-                                <label>
-                                    Email
-                                </label>
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={
-                                        profile.email
-                                    }
-                                    onChange={
-                                        onHandleChange
-                                    }
-                                    disabled
-                                />
-
-                            </div>
-
-
-                            <div className="profile_form_group">
-
-                                <label>
-                                    Phone Number
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    value={
-                                        profile.phone_number
-                                    }
-                                    onChange={
-                                        onHandleChange
-                                    }
-                                    disabled={
-                                        !isEditingProfile
-                                    }
-                                />
-
-                            </div>
-
-
-                            <div className="profile_form_group">
-
-                                <label>
-                                    Date of Birth
-                                </label>
-
-                                <input
-                                    type="date"
-                                    name="dob"
-                                    value={
-                                        profile.dob
-                                    }
-                                    onChange={
-                                        onHandleChange
-                                    }
-                                    disabled={
-                                        !isEditingProfile
-                                    }
-                                />
-
-                            </div>
-
-
-                            <div className="profile_form_group">
-
-                                <label>
-                                    Gender
-                                </label>
-
-                                <select
-                                    name="gender"
-                                    value={
-                                        profile.gender
-                                    }
-                                    onChange={
-                                        onHandleChange
-                                    }
-                                    disabled={
-                                        !isEditingProfile
-                                    }
-                                >
-
-                                    <option value="">
-                                        Select Gender
-                                    </option>
-
-                                    <option value="Male">
-                                        Male
-                                    </option>
-
-                                    <option value="Female">
-                                        Female
-                                    </option>
-
-                                    <option value="Other">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <button
-                                type="submit"
-                                className="profile_save_btn"
-                            >
-                                {isEditingProfile
-                                    ? "Save Changes"
-                                    : "Edit Profile"}
-                            </button>
-
-                        </form>
-
-                    </div>
 
                 )}
 
@@ -1011,185 +884,347 @@ const Profile_LayOut = () => {
 
 
             {/* =====================================
-                ADDRESS PAGE
-            ===================================== */}
+                    PROFILE FORM
+                ===================================== */}
 
-            {showAddressPage && (
+            {showForm && (
 
-                <div className="address_list">
+                <div className="Profile_Add_form">
 
-                    {addresses.length === 0 ? (
+                    <form
+                        onSubmit={
+                            handleEditOrSaveProfile
+                        }
+                    >
 
-                        <p className="no_address">
-                            No addresses added yet.
-                        </p>
+                        <div className="profile_form_group">
 
-                    ) : (
+                            <label>
+                                Full Name
+                            </label>
 
-                        addresses.map((item) => (
+                            <input
+                                type="text"
+                                name="full_name"
+                                value={
+                                    profile.full_name
+                                }
+                                onChange={
+                                    onHandleChange
+                                }
+                                disabled={
+                                    !isEditingProfile
+                                }
+                            />
 
-                            <div
-                                key={item._id}
-                                className="address_card"
+                        </div>
+
+
+                        <div className="profile_form_group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                value={
+                                    profile.email
+                                }
+                                onChange={
+                                    onHandleChange
+                                }
+                                disabled
+                            />
+
+                        </div>
+
+
+                        <div className="profile_form_group">
+
+                            <label>
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone_number"
+                                value={
+                                    profile.phone_number
+                                }
+                                onChange={
+                                    onHandleChange
+                                }
+                                disabled={
+                                    !isEditingProfile
+                                }
+                            />
+
+                        </div>
+
+
+                        <div className="profile_form_group">
+
+                            <label>
+                                Date of Birth
+                            </label>
+
+                            <input
+                                type="date"
+                                name="dob"
+                                value={
+                                    profile.dob
+                                }
+                                onChange={
+                                    onHandleChange
+                                }
+                                disabled={
+                                    !isEditingProfile
+                                }
+                            />
+
+                        </div>
+
+
+                        <div className="profile_form_group">
+
+                            <label>
+                                Gender
+                            </label>
+
+                            <select
+                                name="gender"
+                                value={
+                                    profile.gender
+                                }
+                                onChange={
+                                    onHandleChange
+                                }
+                                disabled={
+                                    !isEditingProfile
+                                }
                             >
 
-                                <div className="address_card_header">
+                                <option value="">
+                                    Select Gender
+                                </option>
 
-                                    <h4>
-                                        {item.type ||
-                                            "Address"}
-                                    </h4>
+                                <option value="Male">
+                                    Male
+                                </option>
 
-                                    {item.isPrimary && (
+                                <option value="Female">
+                                    Female
+                                </option>
 
-                                        <span className="primary_badge">
-                                            Primary
-                                        </span>
+                                <option value="Other">
+                                    Other
+                                </option>
 
-                                    )}
+                            </select>
 
-                                </div>
-
-
-                                <p>
-                                    {item.full_name}
-                                </p>
-
-                                <p>
-                                    {item.phone_number}
-                                </p>
-
-                                <p>
-                                    {item.address}
-                                </p>
-
-                                <p>
-                                    {item.district},{" "}
-                                    {item.state}
-                                </p>
-
-                                <p>
-                                    {item.landmark}
-                                </p>
-
-                                <p>
-                                    {item.pincode}
-                                </p>
+                        </div>
 
 
-                                <div className="isPrimary">
+                        <button
+                            type="submit"
+                            className="profile_save_btn"
+                        >
+                            {isEditingProfile
+                                ? "Save Changes"
+                                : "Edit Profile"}
+                        </button>
 
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleSetPrimary(
-                                                item._id
-                                            )
-                                        }
-                                        disabled={
-                                            item.isPrimary
-                                        }
-                                    >
-                                        {item.isPrimary
-                                            ? "Default"
-                                            : "Set as Primary"}
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        ))
-
-                    )}
+                    </form>
 
                 </div>
 
             )}
 
+        </div>
 
-            {/* =====================================
+
+        {/* =====================================
+                ADDRESS PAGE
+            ===================================== */}
+
+        {showAddressPage && (
+
+            <div className="address_list">
+
+                {addresses.length === 0 ? (
+
+                    <p className="no_address">
+                        No addresses added yet.
+                    </p>
+
+                ) : (
+
+                    addresses.map((item) => (
+
+                        <div
+                            key={item._id}
+                            className="address_card"
+                        >
+
+                            <div className="address_card_header">
+
+                                <h4>
+                                    {item.type ||
+                                        "Address"}
+                                </h4>
+
+                                {item.isPrimary && (
+
+                                    <span className="primary_badge">
+                                        Primary
+                                    </span>
+
+                                )}
+
+                            </div>
+
+
+                            <p>
+                                {item.full_name}
+                            </p>
+
+                            <p>
+                                {item.phone_number}
+                            </p>
+
+                            <p>
+                                {item.address}
+                            </p>
+
+                            <p>
+                                {item.district},{" "}
+                                {item.state}
+                            </p>
+
+                            <p>
+                                {item.landmark}
+                            </p>
+
+                            <p>
+                                {item.pincode}
+                            </p>
+
+
+                            <div className="isPrimary">
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        handleSetPrimary(
+                                            item._id
+                                        )
+                                    }
+                                    disabled={
+                                        item.isPrimary
+                                    }
+                                >
+                                    {item.isPrimary
+                                        ? "Default"
+                                        : "Set as Primary"}
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    ))
+
+                )}
+
+            </div>
+
+        )}
+
+
+        {/* =====================================
                 ORDERS
             ===================================== */}
 
-            {showOrders && (
+        {showOrders && (
 
-                <div className="Orders_container">
+            <div className="Orders_container">
 
-                    {/* Loading */}
+                {/* Loading */}
 
-                    {ordersLoading && (
+                {ordersLoading && (
+
+                    <p>
+                        Loading your orders...
+                    </p>
+
+                )}
+
+
+                {/* Empty */}
+
+                {!ordersLoading &&
+                    orders.length === 0 && (
 
                         <p>
-                            Loading your orders...
+                            You haven't placed any
+                            orders yet.
                         </p>
 
                     )}
 
 
-                    {/* Empty */}
+                {/* Order Cards */}
 
-                    {!ordersLoading &&
-                        orders.length === 0 && (
+                {!ordersLoading &&
+                    orders.length > 0 &&
+                    orders.map((order) => (
 
-                            <p>
-                                You haven't placed any
-                                orders yet.
-                            </p>
+                        <div
+                            key={order._id}
+                            className="order_card"
+                        >
 
-                        )}
+                            {/* ORDER HEADER */}
 
+                            <div className="order_card_header">
 
-                    {/* Order Cards */}
+                                <span className="order_id">
 
-                    {!ordersLoading &&
-                        orders.length > 0 &&
-                        orders.map((order) => (
+                                    Order ID: #
 
-                            <div
-                                key={order._id}
-                                className="order_card"
-                            >
+                                    {order._id
+                                        ?.slice(-8)
+                                        .toUpperCase()}
 
-                                {/* ORDER HEADER */}
-
-                                <div className="order_card_header">
-
-                                    <span className="order_id">
-
-                                        Order ID: #
-
-                                        {order._id
-                                            ?.slice(-8)
-                                            .toUpperCase()}
-
-                                    </span>
+                                </span>
 
 
-                                    <span
-                                        className={getStatusBadgeClass(
-                                            order.deliveryStatus
-                                        )}
+                                <span
+                                    className={getStatusBadgeClass(
+                                        order.deliveryStatus
+                                    )}
+                                >
+                                    {
+                                        order.deliveryStatus
+                                    }
+                                </span>
+
+                            </div>
+
+
+                            {/* ORDER ITEMS */}
+
+                            {order.orderItems?.map(
+                                (item, index) => (
+
+                                    <div
+                                        key={index}
+                                        className="order_item"
                                     >
-                                        {
-                                            order.deliveryStatus
-                                        }
-                                    </span>
 
-                                </div>
-
-
-                                {/* ORDER ITEMS */}
-
-                                {order.orderItems?.map(
-                                    (item, index) => (
-
-                                        <div
-                                            key={index}
-                                            className="order_item"
-                                        >
-
-                                            {/* <img
+                                        {/* <img
                                                 src={`http://localhost:5000/uploads/${item.product?.image}`}
                                                 alt={
                                                     item.product
@@ -1198,509 +1233,509 @@ const Profile_LayOut = () => {
                                                 }
                                                 className="order_item_image"
                                             /> */}
-                                            <img src={item.product.image} alt={item.product_name} 
-                                            className="order_item_image"/>
+                                        <img src={item.product.image} alt={item.product_name}
+                                            className="order_item_image" />
 
 
-                                            <div className="order_item_details">
+                                        <div className="order_item_details">
 
-                                                <p className="order_item_name">
+                                            <p className="order_item_name">
 
-                                                    {
-                                                        item
-                                                            .product
-                                                            ?.product_name
-                                                    }
+                                                {
+                                                    item
+                                                        .product
+                                                        ?.product_name
+                                                }
 
-                                                </p>
+                                            </p>
 
 
-                                                <p className="order_item_qty">
+                                            <p className="order_item_qty">
 
-                                                    Qty:{" "}
-                                                    {
-                                                        item.quantity
-                                                    }
+                                                Qty:{" "}
+                                                {
+                                                    item.quantity
+                                                }
 
-                                                </p>
-
-                                            </div>
+                                            </p>
 
                                         </div>
 
-                                    )
-                                )}
+                                    </div>
+
+                                )
+                            )}
 
 
-                                {/* ORDER FOOTER */}
+                            {/* ORDER FOOTER */}
 
-                                <div className="order_card_footer">
+                            <div className="order_card_footer">
 
-                                    <span className="order_total">
+                                <span className="order_total">
 
-                                        ₹
-                                        {
-                                            order.totalPrice
-                                        }
+                                    ₹
+                                    {
+                                        order.totalPrice
+                                    }
 
-                                    </span>
+                                </span>
 
 
-                                    <button
-                                        type="button"
-                                        className="order_details_btn"
-                                        onClick={() =>
-                                            handleShowOrderDetails(
-                                                order
-                                            )
-                                        }
-                                    >
-                                        Details
-                                    </button>
-
-                                </div>
+                                <button
+                                    type="button"
+                                    className="order_details_btn"
+                                    onClick={() =>
+                                        handleShowOrderDetails(
+                                            order
+                                        )
+                                    }
+                                >
+                                    Details
+                                </button>
 
                             </div>
 
-                        ))}
+                        </div>
 
-                </div>
+                    ))}
 
-            )}
+            </div>
+
+        )}
 
 
-            {/* =====================================
+        {/* =====================================
                 ADD ADDRESS MODAL
             ===================================== */}
 
-            {showAddressForm && (
+        {showAddressForm && (
+
+            <div
+                className="address_modal_overlay"
+                onClick={() =>
+                    setShowAddressForm(false)
+                }
+            >
 
                 <div
-                    className="address_modal_overlay"
-                    onClick={() =>
-                        setShowAddressForm(false)
+                    className="address_modal"
+                    onClick={(e) =>
+                        e.stopPropagation()
                     }
                 >
 
-                    <div
-                        className="address_modal"
-                        onClick={(e) =>
-                            e.stopPropagation()
+                    {/* MODAL HEADER */}
+
+                    <div className="address_modal_header">
+
+                        <h2>
+                            Add New Address
+                        </h2>
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setShowAddressForm(
+                                    false
+                                )
+                            }
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    {/* ADDRESS FORM */}
+
+                    <form
+                        onSubmit={
+                            onHandleAddressSubmit
                         }
                     >
 
-                        {/* MODAL HEADER */}
+                        {/* ADDRESS TYPE */}
 
-                        <div className="address_modal_header">
+                        <div className="address_type_section">
 
-                            <h2>
-                                Add New Address
-                            </h2>
+                            <label>
+                                Address Type
+                            </label>
+
+
+                            <div className="address_type_buttons">
+
+                                <button
+                                    type="button"
+                                    className={
+                                        selectedType ===
+                                            "home"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                    onClick={() =>
+                                        setSelectedType(
+                                            "home"
+                                        )
+                                    }
+                                >
+                                    Home
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    className={
+                                        selectedType ===
+                                            "work"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                    onClick={() =>
+                                        setSelectedType(
+                                            "work"
+                                        )
+                                    }
+                                >
+                                    Work
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* FULL NAME */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="full_name"
+                                value={
+                                    address.full_name
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter full name"
+                            />
+
+                            {addressErrors.full_name && (
+
+                                <small>
+                                    {
+                                        addressErrors.full_name
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* PHONE */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone_number"
+                                value={
+                                    address.phone_number
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter phone number"
+                            />
+
+                            {addressErrors.phone_number && (
+
+                                <small>
+                                    {
+                                        addressErrors.phone_number
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* ADDRESS */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Address
+                            </label>
+
+                            <textarea
+                                name="address"
+                                value={
+                                    address.address
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="House / Street / Area"
+                                rows="3"
+                            />
+
+                            {addressErrors.address && (
+
+                                <small>
+                                    {
+                                        addressErrors.address
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* DISTRICT */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                City / District
+                            </label>
+
+                            <input
+                                type="text"
+                                name="district"
+                                value={
+                                    address.district
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter city or district"
+                            />
+
+                            {addressErrors.district && (
+
+                                <small>
+                                    {
+                                        addressErrors.district
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* STATE */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                State
+                            </label>
+
+                            <input
+                                type="text"
+                                name="state"
+                                value={
+                                    address.state
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter state"
+                            />
+
+                            {addressErrors.state && (
+
+                                <small>
+                                    {
+                                        addressErrors.state
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* LANDMARK */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Landmark
+                            </label>
+
+                            <input
+                                type="text"
+                                name="landmark"
+                                value={
+                                    address.landmark
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter nearby landmark"
+                            />
+
+                            {addressErrors.landmark && (
+
+                                <small>
+                                    {
+                                        addressErrors.landmark
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* PINCODE */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Pincode
+                            </label>
+
+                            <input
+                                type="text"
+                                name="pincode"
+                                value={
+                                    address.pincode
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter 6-digit pincode"
+                            />
+
+                            {addressErrors.pincode && (
+
+                                <small>
+                                    {
+                                        addressErrors.pincode
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* ALTERNATIVE PHONE */}
+
+                        <div className="address_form_group">
+
+                            <label>
+                                Alternative Phone
+                                <span>
+                                    {" "}
+                                    (Optional)
+                                </span>
+                            </label>
+
+                            <input
+                                type="text"
+                                name="alt_phone_number"
+                                value={
+                                    address.alt_phone_number
+                                }
+                                onChange={
+                                    onHandleAddressChange
+                                }
+                                placeholder="Enter alternative number"
+                            />
+
+                            {addressErrors.alt_phone_number && (
+
+                                <small>
+                                    {
+                                        addressErrors.alt_phone_number
+                                    }
+                                </small>
+
+                            )}
+
+                        </div>
+
+
+                        {/* SUBMIT */}
+
+                        <div className="address_modal_footer">
 
                             <button
                                 type="button"
+                                className="cancel_address_btn"
                                 onClick={() =>
                                     setShowAddressForm(
                                         false
                                     )
                                 }
                             >
-                                ×
+                                Cancel
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                className="save_address_btn"
+                            >
+                                Save Address
                             </button>
 
                         </div>
 
-
-                        {/* ADDRESS FORM */}
-
-                        <form
-                            onSubmit={
-                                onHandleAddressSubmit
-                            }
-                        >
-
-                            {/* ADDRESS TYPE */}
-
-                            <div className="address_type_section">
-
-                                <label>
-                                    Address Type
-                                </label>
-
-
-                                <div className="address_type_buttons">
-
-                                    <button
-                                        type="button"
-                                        className={
-                                            selectedType ===
-                                                "home"
-                                                ? "selected"
-                                                : ""
-                                        }
-                                        onClick={() =>
-                                            setSelectedType(
-                                                "home"
-                                            )
-                                        }
-                                    >
-                                        Home
-                                    </button>
-
-
-                                    <button
-                                        type="button"
-                                        className={
-                                            selectedType ===
-                                                "work"
-                                                ? "selected"
-                                                : ""
-                                        }
-                                        onClick={() =>
-                                            setSelectedType(
-                                                "work"
-                                            )
-                                        }
-                                    >
-                                        Work
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-
-                            {/* FULL NAME */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Full Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="full_name"
-                                    value={
-                                        address.full_name
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter full name"
-                                />
-
-                                {addressErrors.full_name && (
-
-                                    <small>
-                                        {
-                                            addressErrors.full_name
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* PHONE */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Phone Number
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    value={
-                                        address.phone_number
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter phone number"
-                                />
-
-                                {addressErrors.phone_number && (
-
-                                    <small>
-                                        {
-                                            addressErrors.phone_number
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* ADDRESS */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Address
-                                </label>
-
-                                <textarea
-                                    name="address"
-                                    value={
-                                        address.address
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="House / Street / Area"
-                                    rows="3"
-                                />
-
-                                {addressErrors.address && (
-
-                                    <small>
-                                        {
-                                            addressErrors.address
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* DISTRICT */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    City / District
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="district"
-                                    value={
-                                        address.district
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter city or district"
-                                />
-
-                                {addressErrors.district && (
-
-                                    <small>
-                                        {
-                                            addressErrors.district
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* STATE */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    State
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="state"
-                                    value={
-                                        address.state
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter state"
-                                />
-
-                                {addressErrors.state && (
-
-                                    <small>
-                                        {
-                                            addressErrors.state
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* LANDMARK */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Landmark
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="landmark"
-                                    value={
-                                        address.landmark
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter nearby landmark"
-                                />
-
-                                {addressErrors.landmark && (
-
-                                    <small>
-                                        {
-                                            addressErrors.landmark
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* PINCODE */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Pincode
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="pincode"
-                                    value={
-                                        address.pincode
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter 6-digit pincode"
-                                />
-
-                                {addressErrors.pincode && (
-
-                                    <small>
-                                        {
-                                            addressErrors.pincode
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* ALTERNATIVE PHONE */}
-
-                            <div className="address_form_group">
-
-                                <label>
-                                    Alternative Phone
-                                    <span>
-                                        {" "}
-                                        (Optional)
-                                    </span>
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="alt_phone_number"
-                                    value={
-                                        address.alt_phone_number
-                                    }
-                                    onChange={
-                                        onHandleAddressChange
-                                    }
-                                    placeholder="Enter alternative number"
-                                />
-
-                                {addressErrors.alt_phone_number && (
-
-                                    <small>
-                                        {
-                                            addressErrors.alt_phone_number
-                                        }
-                                    </small>
-
-                                )}
-
-                            </div>
-
-
-                            {/* SUBMIT */}
-
-                            <div className="address_modal_footer">
-
-                                <button
-                                    type="button"
-                                    className="cancel_address_btn"
-                                    onClick={() =>
-                                        setShowAddressForm(
-                                            false
-                                        )
-                                    }
-                                >
-                                    Cancel
-                                </button>
-
-
-                                <button
-                                    type="submit"
-                                    className="save_address_btn"
-                                >
-                                    Save Address
-                                </button>
-
-                            </div>
-
-                        </form>
-
-                    </div>
+                    </form>
 
                 </div>
 
-            )}
+            </div>
+
+        )}
 
 
-            {/* =====================================
+        {/* =====================================
                 ORDER DETAILS COMPONENT
             ===================================== */}
 
-            {showOrderDetails &&
-                selectedOrder && (
+        {showOrderDetails &&
+            selectedOrder && (
 
-                    <OrderDetails
-                        order={selectedOrder}
+                <OrderDetails
+                    order={selectedOrder}
 
-                        onClose={
-                            handleCloseOrderDetails
-                        }
+                    onClose={
+                        handleCloseOrderDetails
+                    }
 
-                        onReturn={
-                            handleReturnOrder
-                        }
+                    onReturn={
+                        handleReturnOrder
+                    }
 
-                        onOrderCancelled={
-                            handleOrderCancelled
-                        }
-                    />
+                    onOrderCancelled={
+                        handleOrderCancelled
+                    }
+                />
 
-                )}
+            )}
 
-        </div>
+    </div>
 
-    );
+);
 
 };
 

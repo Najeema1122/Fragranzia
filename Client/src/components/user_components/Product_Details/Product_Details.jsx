@@ -5,6 +5,8 @@ import { FaHeart, FaShareAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
 
+import Swal from "sweetalert2";
+
 const Product_Details = ({ product }) => {
 
     const navigate = useNavigate();
@@ -84,7 +86,13 @@ const Product_Details = ({ product }) => {
 
         if (!token) {
 
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Login",
+                            text:"Please login first",
+                            icon:"Fail",
+                            confirmButtonText:"OK"
+                        });
 
             navigate("/login");
 
@@ -117,7 +125,13 @@ const Product_Details = ({ product }) => {
 
             if (error.response?.status === 401) {
 
-                alert("Please login first");
+                // alert("Please login first");
+                Swal.fire({
+                            title:"Login",
+                            text:"Please login first",
+                            icon:"Fail",
+                            confirmButtonText:"OK"
+                        });
 
                 // Remove invalid token
                 localStorage.removeItem("token");
@@ -134,10 +148,14 @@ const Product_Details = ({ product }) => {
 
             if (error.response?.status === 400) {
 
-                alert(
-                    error.response?.data?.message ||
-                    "Product is already in cart"
-                );
+                // alert(
+                //     error.response?.data?.message ||
+                //     "Product is already in cart"
+                // );
+                Swal.fire({
+                            title:"Cart",
+                            text:error.response?.data?.message || "Product is already in cart"
+                        });
 
                 navigate("/cart");
 
@@ -149,10 +167,14 @@ const Product_Details = ({ product }) => {
             // OTHER ERROR
             // ---------------------------------------------
 
-            alert(
-                error.response?.data?.message ||
-                "Something went wrong"
-            );
+            // alert(
+            //     error.response?.data?.message ||
+            //     "Something went wrong"
+            // );
+            Swal.fire({
+                            
+                            text:error.response?.data?.message || "Something went wrong"
+                        });
         }
     };
 
@@ -169,7 +191,13 @@ const Product_Details = ({ product }) => {
         // User not logged in
         if (!token) {
 
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Login",
+                            text:"Please login first",
+                            icon:"Fail",
+                            confirmButtonText:"OK"
+                        });
 
             navigate("/login");
 

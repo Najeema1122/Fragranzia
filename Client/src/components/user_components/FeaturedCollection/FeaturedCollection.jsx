@@ -5,6 +5,7 @@ import newBadge from "../../../assets/newBadge.png";
 import "./FeaturedCollection.css";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
+import Swal from "sweetalert2";
 
 const SLIDE_BY = 2;
 
@@ -109,7 +110,13 @@ const FeaturedCollection = ({ products = [] }) => {
 
         if (!token) {
 
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Login",
+                            text:"Please log in first",
+                            // icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
             navigate("/login");
 
@@ -129,7 +136,14 @@ const FeaturedCollection = ({ products = [] }) => {
 
 
             // Product successfully added
-            alert("Product added to cart");
+            // alert("Product added to cart");
+
+            Swal.fire({
+                            title:"Add to cart",
+                            text:"Product added to cart",
+                            icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
             // navigate("/cart");
 
@@ -150,7 +164,14 @@ const FeaturedCollection = ({ products = [] }) => {
                 error.response?.status === 401
             ) {
 
-                alert("Please login first");
+                // alert("Please login first");
+                Swal.fire({
+                            title:"Login",
+                            text:"Please Log in first",
+                            // icon:"success",
+                            confirmButtonText:"OK"
+                        });
+                
 
                 localStorage.removeItem("token");
 
@@ -168,10 +189,16 @@ const FeaturedCollection = ({ products = [] }) => {
                 error.response?.status === 400
             ) {
 
-                alert(
-                    error.response?.data?.message ||
-                    "Product is already in cart"
-                );
+                // alert(
+                //     error.response?.data?.message ||
+                //     "Product is already in cart"
+                // );
+                Swal.fire({
+                            title:"Add to cart",
+                            text:error.response?.data?.message||"Product is already in the cart",
+                            icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
                 navigate("/cart");
 
@@ -183,10 +210,16 @@ const FeaturedCollection = ({ products = [] }) => {
             // OTHER ERROR
             // -------------------------------------------------
 
-            alert(
-                error.response?.data?.message ||
-                "Something went wrong"
-            );
+            // alert(
+            //     error.response?.data?.message ||
+            //     "Something went wrong"
+            // );
+            Swal.fire({
+                            title:"Something went wrong",
+                            text:error.response?.data?.message ||     "Something went wrong",
+                            icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
         }
 

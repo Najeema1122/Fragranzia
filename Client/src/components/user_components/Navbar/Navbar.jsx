@@ -14,6 +14,7 @@ import {
 
 import SearchBar from "./SearchBar/SearchBar";
 import UserService from "../../../Services/UserService";
+import Swal from "sweetalert2";
 
 
 const Navbar = () => {
@@ -117,7 +118,13 @@ const Navbar = () => {
 
         if (!token) {
 
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Log in",
+                            text:"Please Log in first",
+                            icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
             navigate("/login");
 
@@ -146,7 +153,13 @@ const Navbar = () => {
 
         setOpen(false);
 
-        alert("Logout Successfully");
+        // alert("Logout Successfully");
+        Swal.fire({
+                            title:"log Out",
+                            text:"Log out successfully",
+                            icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
         navigate("/");
     };

@@ -3,7 +3,7 @@ import "./Product_card.css";
 import { useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import UserService from "../../../Services/UserService"; // ⚠️ adjust this path to where Product_card.jsx lives
-
+import Swal from "sweetalert2";
 const ITEMS_PER_LOAD = 9;
 
 const Product_card = ({ products = [] }) => {
@@ -54,7 +54,13 @@ const Product_card = ({ products = [] }) => {
         const token = localStorage.getItem("token");
 
         if (!token) {
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Login",
+                            text:"Please login first",
+                            icon:"Fail",
+                            confirmButtonText:"OK"
+                        });
             navigate("/login");
             return;
         }

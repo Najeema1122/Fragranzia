@@ -3,6 +3,7 @@ import { CiTrash } from "react-icons/ci";
 import "./Wishlist.css";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
+import Swal from "sweetalert2";
 
 const Wishlist = () => {
 
@@ -84,10 +85,13 @@ const Wishlist = () => {
                 error.response?.data || error.message
             );
 
-            alert(
-                error.response?.data?.message ||
-                "Failed to remove item from wishlist"
-            );
+            // alert(
+            //     error.response?.data?.message ||
+            //     "Failed to remove item from wishlist"
+            // );
+            Swal.fire ({
+                text: error.response?.data?.message ||  "Failed to remove item from wishlist"
+            })
         }
     };
 

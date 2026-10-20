@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Add_to_cart.css";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
+import Swal from "sweetalert2";
 
 const Add_to_cart = () => {
 
@@ -69,7 +70,13 @@ const Add_to_cart = () => {
 
         if (!token) {
 
-            alert("Please login first");
+            // alert("Please login first");
+            Swal.fire({
+                            title:"Login",
+                            text:"Please login first",
+                            // icon:"success",
+                            confirmButtonText:"OK"
+                        });
 
             navigate("/login");
 
@@ -375,13 +382,6 @@ const Add_to_cart = () => {
                                                 }
                                             >
                                                 Delete
-                                            </button>
-
-
-                                            <button
-                                                className="share_btn"
-                                            >
-                                                Share
                                             </button>
 
 
