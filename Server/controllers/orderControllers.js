@@ -1,7 +1,11 @@
+const crypto = require("crypto");
+
 const { Order } = require("../models/Order");
 const User = require("../models/User");
 const Address = require("../models/Address");
 const Product = require("../models/Product");
+
+const razorpay = require("../utils/razorpay.js")      //import razorpay instance
 
 
 const placeOrder = async (req, res) => {
@@ -66,7 +70,7 @@ const placeOrder = async (req, res) => {
         // 4. PAYMENT METHOD
         // =========================================
 
-        const { paymentMethod } = req.body;
+        const { paymentMethod, currency = "INR" } = req.body;
 
 
         if (!paymentMethod) {
@@ -353,7 +357,46 @@ const placeOrder = async (req, res) => {
 
 
         // =========================================
-        // 9. POPULATE ORDERS
+        // 9. RAZORPAY ORDER (ONLINE PAYMENT ONLY)
+        // =========================================
+        // One Razorpay order covers every order created above.
+        // This must run BEFORE populating, so the saved
+        // razorpay_order_id is included in the response.
+
+        let razorpayOrder = null;
+
+        if (paymentMethod !== "COD") {
+
+            const totalAmount = createdOrders.reduce(
+                (sum, order) => sum + order.totalPrice,
+                0
+            );
+
+            razorpayOrder = await razorpay.orders.create({
+                amount: Math.round(totalAmount * 100), // in paise
+                currency,
+                receipt: `receipt_${createdOrders[0]._id}`,
+            });
+
+            if (!razorpayOrder) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Razorpay order creation failed"
+                });
+            }
+
+            // Save the Razorpay order ID on every order,
+            // so verifyPayment can find them later
+            await Order.updateMany(
+                { _id: { $in: createdOrders.map(order => order._id) } },
+                { $set: { razorpay_order_id: razorpayOrder.id } }
+            );
+
+        }
+
+
+        // =========================================
+        // 10. POPULATE ORDERS
         // =========================================
 
         const populatedOrders =
@@ -382,7 +425,7 @@ const placeOrder = async (req, res) => {
 
 
         // =========================================
-        // 10. RESPONSE
+        // 11. RESPONSE
         // =========================================
 
         return res.status(201).json({
@@ -396,6 +439,10 @@ const placeOrder = async (req, res) => {
 
             orders:
                 populatedOrders,
+
+            paymentMethod,
+
+            razorpayOrder: razorpayOrder || null,
 
             skippedItems
 
@@ -425,6 +472,83 @@ const placeOrder = async (req, res) => {
     }
 
 };
+
+
+// =========================
+// VERIFY RAZORPAY PAYMENT
+// =========================
+// Called by the frontend after Razorpay checkout succeeds.
+// Body: { razorpay_order_id, razorpay_payment_id, razorpay_signature }
+
+const verifyPayment = async (req, res) => {
+
+    try {
+
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature
+        } = req.body;
+
+        if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing payment details"
+            });
+        }
+
+        // Razorpay signature = HMAC_SHA256(order_id|payment_id, key_secret)
+        const expectedSignature = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+            .digest("hex");
+
+        if (expectedSignature !== razorpay_signature) {
+
+            await Order.updateMany(
+                { razorpay_order_id },
+                { $set: { paymentStatus: "Failed" } }
+            );
+
+            return res.status(400).json({
+                success: false,
+                message: "Invalid payment signature"
+            });
+        }
+
+        // Signature is valid -> mark every order of this payment as Paid
+        const result = await Order.updateMany(
+            { razorpay_order_id },
+            { $set: { paymentStatus: "Paid", paidAt: new Date() } }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No orders found for this payment"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Payment verified successfully"
+        });
+
+    } catch (error) {
+
+        console.error("Verify Payment Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Payment verification failed",
+            error: error.message
+        });
+
+    }
+
+};
+
+
 const getOrders = async (req, res) => {
 
     try {
@@ -782,9 +906,10 @@ const returnOrder = async (req, res) => {
 
 module.exports = {
     placeOrder,
+    verifyPayment,
     getOrders,
     cancelOrder,
     getAllOrders,
     updateOrderStatus,
-     returnOrder
+    returnOrder
 };

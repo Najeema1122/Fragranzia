@@ -5,6 +5,7 @@ const checkAuth = require("../middleware/authMiddleware");
 
 const {
     placeOrder,
+    verifyPayment,
     getOrders,
     cancelOrder,
     returnOrder,
@@ -16,6 +17,9 @@ const { getDashboardStats } = require("../controllers/dashboardController");
 
 
 router.post("/place", checkAuth, placeOrder);
+
+// No checkAuth here: the Razorpay signature check authenticates this request
+router.post("/verify-payment", verifyPayment);
 
 router.get("/", checkAuth, getOrders);
 
