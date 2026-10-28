@@ -18,7 +18,7 @@ import PaymentSuccess from "./pages/User/PaymentSuccess";
 import Wish_List_Page from "./pages/User/Wish_List_page";
 import OrderAdmin from "./components/Admin_components/Admin_order/OrderAdmin";
 import UserAdmin from "./components/Admin_components/Admin_users/UserAdmin";
-import Dashboard from "./components/Admin_components/Admin_dashboard/Dashboard";
+import Dashboard from "./components/Admin_components/Admin_dashBoard/Dashboard";
 import AdminRoute from "./routes/AdminRoute";
 
 const App = () => {
