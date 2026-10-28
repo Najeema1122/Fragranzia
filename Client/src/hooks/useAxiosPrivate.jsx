@@ -1,6 +1,6 @@
 // useAxiosPrivate.jsx
 import { useEffect } from "react";
-import { axiosPrivate } from "../axios";
+import { axiosPrivate } from "../Axios";
 
 const useAxiosPrivate = () => {
     useEffect(() => {
