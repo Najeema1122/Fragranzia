@@ -282,14 +282,6 @@ const Add_to_cart = () => {
 
                                     <div className="cart_item_image">
 
-                                        {/* <img
-                                            src={`http://localhost:5000/uploads/${product.image}`}
-                                            alt={
-                                                product.product_name
-                                            }
-                                        /> */}
-
-
                                         <img src={product.image} alt={product.product_name} />
 
 

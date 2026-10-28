@@ -379,7 +379,7 @@ const OrderAdmin = () => {
 
     if (product.image) {
 
-      return `http://localhost:5000/uploads/${product.image}`;
+      return product.image;
 
     }
 
@@ -400,7 +400,7 @@ const OrderAdmin = () => {
 
       }
 
-      return `http://localhost:5000/uploads/${image}`;
+      return image;
 
     }
 

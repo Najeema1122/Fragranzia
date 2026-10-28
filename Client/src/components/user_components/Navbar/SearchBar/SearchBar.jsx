@@ -305,7 +305,7 @@ const SearchBar = ({ mobile = false }) => {
                                 {/* PRODUCT IMAGE */}
 
                                 <img
-                                    src={`http://localhost:5000/uploads/${product.image}`}
+                                    src={product.image}
                                     alt={product.product_name}
                                     className="search-result-img"
                                 />

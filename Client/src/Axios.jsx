@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const apiUrl = import.meta.env.VITE_BACKEND_URL;     //backend url from server
-const apiUrl = "http://localhost:5000"
+const apiUrl = "/";
 
 
 export const BASE_URL = apiUrl;

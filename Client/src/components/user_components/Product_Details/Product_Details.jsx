@@ -284,21 +284,6 @@ const Product_Details = ({ product }) => {
 
                     <div className="thumbnails">
 
-                        {/* <img
-                            src={`http://localhost:5000/uploads/${product.image}`}
-                            alt={product.product_name}
-                        />
-
-                        <img
-                            src={`http://localhost:5000/uploads/${product.image}`}
-                            alt={product.product_name}
-                        />
-
-                        <img
-                            src={`http://localhost:5000/uploads/${product.image}`}
-                            alt={product.product_name}
-                        /> */}
-
                          <img src={product.image} alt={product.product_name} />
 
                           <img src={product.image} alt={product.product_name} />
@@ -312,11 +297,6 @@ const Product_Details = ({ product }) => {
 
                     <div className="main_image">
 
-                        {/* <img
-                            src={`http://localhost:5000/uploads/${product.image}`}
-                            alt={product.product_name}
-                            
-                        /> */}
                          <img src={product.image} alt={product.product_name} />
 
 

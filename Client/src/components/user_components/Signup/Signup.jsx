@@ -91,7 +91,7 @@ const Signup = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:5000/auth/register",
+                "/auth/register",
                 formData
             );
 

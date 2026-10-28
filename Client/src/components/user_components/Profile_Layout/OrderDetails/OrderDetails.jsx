@@ -183,13 +183,6 @@ const OrderDetails = ({
 
                                         <div className="order_product_image_box">
 
-                                            {/* <img
-                                                src={`http://localhost:5000/uploads/${product?.image}`}
-                                                alt={
-                                                    product?.product_name ||
-                                                    "Product"
-                                                }
-                                            /> */}
                                              <img src={item.product.image} alt={item.product_name} />
 
                                         </div>

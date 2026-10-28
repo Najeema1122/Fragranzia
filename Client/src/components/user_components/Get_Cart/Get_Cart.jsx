@@ -52,10 +52,6 @@ const Get_Cart = () => {
                         <div className="cart_item" key={item.product._id}>
 
                             <div className="cart_image">
-                                {/* <img
-                                    src={`http://localhost:5000/uploads/${item.product.image}`}
-                                    alt={item.product.product_name}
-                                /> */}
                                  <img src={item.product.image} alt={item.product.product_name} />
                             </div>
 

@@ -313,10 +313,6 @@ const FeaturedCollection = ({ products = [] }) => {
                             }}
                         >
 
-                            {/* <img
-                                src={`http://localhost:5000/uploads/${product.image}`}
-                                alt={product.product_name}
-                            /> */}
                              <img src={product.image} alt={product.product_name} />
 
 

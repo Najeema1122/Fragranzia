@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
 import "./Payement.css";
 import Swal from "sweetalert2";
-// Vite env variables (must start with VITE_ and live in .env at project root)
- const API_URL = "http://localhost:5000";
 // const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const loadRazorpayScript = () =>
@@ -59,7 +57,7 @@ const Payment = () => {
             handler: async function (response) {
                 try {
                     const verifyRes = await axios.post(
-                        `${API_URL}/api/order/verify-payment`,
+                        "/api/order/verify-payment",
                         {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,

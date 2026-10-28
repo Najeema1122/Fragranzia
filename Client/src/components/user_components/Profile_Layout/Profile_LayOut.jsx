@@ -1224,15 +1224,6 @@ return (
                                         className="order_item"
                                     >
 
-                                        {/* <img
-                                                src={`http://localhost:5000/uploads/${item.product?.image}`}
-                                                alt={
-                                                    item.product
-                                                        ?.product_name ||
-                                                    "Product"
-                                                }
-                                                className="order_item_image"
-                                            /> */}
                                         <img src={item.product.image} alt={item.product_name}
                                             className="order_item_image" />
 
