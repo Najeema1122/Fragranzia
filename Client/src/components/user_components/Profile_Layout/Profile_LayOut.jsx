@@ -400,7 +400,7 @@ const Profile_LayOut = () => {
             Swal.fire({
 
                 text: err.response?.data?.message || "Failed to add address",
-                Icon: Fail,
+                icon: "error",
                 confirmButtonText: "OK"
             });
 

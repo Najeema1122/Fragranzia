@@ -1,13 +1,26 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-const connectDb=async ()=>{
-    try{
-        const connection=await mongoose.connect(process.env.MONGO_URI);
-        console.log("Database connectes");
+let connectionPromise;
 
+const connectDb = async () => {
+    if (!process.env.MONGO_URI) {
+        throw new Error("MONGO_URI is not configured");
     }
-    catch(error){
-        console.log(error)
+
+    if (mongoose.connection.readyState === 1) {
+        return mongoose.connection;
     }
-}
-module.exports=connectDb
+
+    if (!connectionPromise) {
+        connectionPromise = mongoose.connect(process.env.MONGO_URI)
+            .then(() => mongoose.connection)
+            .catch((error) => {
+                connectionPromise = null;
+                throw error;
+            });
+    }
+
+    return connectionPromise;
+};
+
+module.exports = connectDb;

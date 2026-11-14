@@ -504,12 +504,6 @@ const verifyPayment = async (req, res) => {
             .digest("hex");
 
         if (expectedSignature !== razorpay_signature) {
-
-            await Order.updateMany(
-                { razorpay_order_id },
-                { $set: { paymentStatus: "Failed" } }
-            );
-
             return res.status(400).json({
                 success: false,
                 message: "Invalid payment signature"

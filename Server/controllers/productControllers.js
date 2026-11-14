@@ -4,9 +4,11 @@ const Product = require("../models/Product");
 
 //  CREATE PRODUCT (POST)
 const createProduct = async (req, res) => {
-  console.log(req.body);
-  console.log(req.file.path) // ✅ Cloudinary hosted URL, not local filename
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Product image is required" });
+    }
+
     const { product_name, product_category, price, sales_price, description, stock } = req.body;
 
     const product = new Product({
@@ -71,8 +73,6 @@ const blockProduct = async (req, res) => {
         product.status = !product.status;
 
         await product.save();
-
-        console.log(savedProduct)
 
         res.json(product);
     } catch (error) {

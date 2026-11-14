@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosPrivate } from "../../../Axios";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../../Services/UserService";
 import "./Payement.css";
 import Swal from "sweetalert2";
-// const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 const loadRazorpayScript = () =>
     new Promise((resolve) => {
@@ -40,6 +40,17 @@ const Payment = () => {
             return;
         }
 
+        if (!RAZORPAY_KEY) {
+            Swal.fire({
+                title: "Payment",
+                text: "Online payment is not configured. Please contact support.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+            setLoading(false);
+            return;
+        }
+
         // if (!RAZORPAY_KEY) {
         //     console.error("VITE_RAZORPAY_KEY_ID is missing. Check your .env file and restart the dev server.");
         //     alert("Payment configuration error");
@@ -48,7 +59,7 @@ const Payment = () => {
         // }
 
         const options = {
-            key: "rzp_test_TibyqCsHnU31GN",
+            key: RAZORPAY_KEY,
             amount: razorpayOrder.amount,
             currency: "INR",
             name: "Cart7",
@@ -56,7 +67,7 @@ const Payment = () => {
             order_id: razorpayOrder.id,
             handler: async function (response) {
                 try {
-                    const verifyRes = await axios.post(
+                    const verifyRes = await axiosPrivate.post(
                         "/api/order/verify-payment",
                         {
                             razorpay_order_id: response.razorpay_order_id,

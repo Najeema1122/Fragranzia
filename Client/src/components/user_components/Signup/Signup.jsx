@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import { axiosPrivate } from "../../../Axios";
 import './Signup.css';
 import { useState } from "react";
 import signup_left_image from "../../../assets/sign_up_left.jpg";
@@ -90,7 +90,7 @@ const Signup = () => {
         if (!next) return;
 
         try {
-            const res = await axios.post(
+            await axiosPrivate.post(
                 "/auth/register",
                 formData
             );

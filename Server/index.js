@@ -1,9 +1,4 @@
-// const dns = require("dns");
-// dns.setServers(['8.8.8.8', '8.8.4.4']);
-
 require("dotenv").config();
-const dns = require("dns");
-dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require("express");
 const cors = require("cors");
 const connectDb = require("./config/db");
@@ -19,14 +14,23 @@ const orderRoutes = require("./routes/orderRoutes");
 
 
 const app=express();
-const PORT=process.env.PORT||5000;
-
-
-//connect to database
-connectDb();
 app.use(cors());  //middleware
 app.use(express.json());
 app.use("/uploads",express.static("uploads"));//the images are stored in the uploads
+
+// Vercel can start processing a request before the first DB connection settles.
+app.use(async (req, res, next) => {
+    try {
+        await connectDb();
+        next();
+    } catch (error) {
+        console.error("Database connection failed:", error.message);
+        res.status(503).json({
+            success: false,
+            message: "Database unavailable"
+        });
+    }
+});
 
 //routes
 
@@ -38,6 +42,4 @@ app.use("/api/order", orderRoutes);
 app.use("/admin/add_product",productRoutes);
 app.use("/admin/add_category",catRoutes)
 app.use("/api/profile",profileRoutes)
-app.listen(PORT,()=>{
-    console.log(`BACKEND RUNNING AT http://localhost:${PORT}`);
-})
+module.exports = app;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Navbar from "../../components/user_components/Navbar/Navbar";
@@ -13,20 +13,14 @@ const Payement_page = () => {
 
     const navigate = useNavigate();
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const isAuthenticated = Boolean(localStorage.getItem("token"));
 
     useEffect(() => {
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
+        if (!isAuthenticated) {
             navigate("/login");
-            return;
         }
-
-        setIsAuthenticated(true);
-
-    }, [navigate]);
+    }, [isAuthenticated, navigate]);
 
 
     if (!isAuthenticated) {

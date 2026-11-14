@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 // adjust path if different
 import "./SideMenu.css";
-import { AuthContext } from "../../../Context/AuthContext";
+import { AuthContext } from "../../../Context/AuthContext.js";
 
 const SideMenu = () => {
   const navigate = useNavigate();

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Product.css";
-import { useNavigate } from "react-router-dom";
 import AdminService from "../../../Services/AdminService";
 
 const initialProductState = {
@@ -25,8 +24,6 @@ const ProductAdmin = () => {
    } = AdminService();
 
    const [products, setProducts] = useState(initialProductState);
-
-   const navigate = useNavigate();
 
    const [productList, setProductList] = useState([]);
    const [showForm, setShowForm] = useState(false);

@@ -44,8 +44,6 @@ const OrderDetails = ({
             return total + Number(price) * item.quantity;
         }, 0) || 0;
 
-    const shipping = 0;
-
     // =========================================
     // CANCEL ORDER
     // =========================================

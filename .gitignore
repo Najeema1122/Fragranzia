@@ -30,15 +30,19 @@ server/dist/
 # ----------------------
 .env
 .env.*
+!.env.example
 client/.env
 client/.env.*
+!Client/.env.example
 server/.env
 server/.env.*
+!Server/.env.example
 
 # ----------------------
 # Local config files
 # ----------------------
 *.local
+.vercel
 
 # ----------------------
 # Editor / IDE files

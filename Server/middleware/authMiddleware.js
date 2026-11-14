@@ -2,11 +2,6 @@ const jwt = require("jsonwebtoken");
 
 const checkAuth = (req, res, next) => {
 
-    console.log(
-        "Authorization Header:",
-        req.headers.authorization
-    );
-
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -31,8 +26,6 @@ const checkAuth = (req, res, next) => {
             token,
             process.env.JWT_SECRET
         );
-
-        console.log("Decoded:", decoded);
 
         req.userId = decoded._id;
 
