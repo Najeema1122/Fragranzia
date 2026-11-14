@@ -32,7 +32,9 @@ const App = () => {
 
             console.log("product list", res);
 
-            setData(res);
+            // A missing or misconfigured API can return HTML/error JSON instead
+            // of the products array. Keep the storefront mounted in that case.
+            setData(Array.isArray(res) ? res : []);
         } catch (error) {
             console.log(error);
         }
